@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_media_picker/gallery_media_picker.dart';
@@ -12,6 +14,7 @@ class BottomTools extends StatelessWidget {
   final GlobalKey contentKey;
   final Function(String imageUri) onDone;
   final Widget? onDoneButtonStyle;
+  final Future<void> Function() onGalleryPicker;
 
   /// editor background color
   final Color? editorBackgroundColor;
@@ -20,7 +23,8 @@ class BottomTools extends StatelessWidget {
       required this.contentKey,
       required this.onDone,
       this.onDoneButtonStyle,
-      this.editorBackgroundColor})
+      this.editorBackgroundColor,
+      required this.onGalleryPicker})
       : super(key: key);
 
   @override
@@ -46,14 +50,15 @@ class BottomTools extends StatelessWidget {
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     /// scroll to gridView page
                                     if (controlNotifier.mediaPath.isEmpty) {
-                                      scrollNotifier.pageController
-                                          .animateToPage(1,
-                                              duration: const Duration(
-                                                  milliseconds: 300),
-                                              curve: Curves.ease);
+                                      // scrollNotifier.pageController
+                                      //     .animateToPage(1,
+                                      //         duration: const Duration(
+                                      //             milliseconds: 300),
+                                      //         curve: Curves.ease);
+                                      await onGalleryPicker();
                                     }
                                   },
                                   child: const CoverThumbnail(

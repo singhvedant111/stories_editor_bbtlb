@@ -1,10 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_media_picker/gallery_media_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 import 'package:stories_editor/src/domain/models/editable_items.dart';
@@ -355,6 +358,22 @@ class _MainViewState extends State<MainView> {
                           setState(() {
                             widget.onDone!(bytes);
                           });
+                        },
+                        onGalleryPicker: () async {
+                          ImagePicker imagePicker = ImagePicker();
+                          var image = await imagePicker.pickImage(
+                              source: ImageSource.gallery,
+                              imageQuality: 70,
+                              maxHeight: 1024,
+                              maxWidth: 1024);
+                          controlNotifier.mediaPath = image!.path.toString();
+                          if (controlNotifier.mediaPath.isNotEmpty) {
+                            itemProvider.draggableWidget.insert(
+                                0,
+                                EditableItem()
+                                  ..type = ItemType.image
+                                  ..position = const Offset(0.0, 0));
+                          }
                         },
                         onDoneButtonStyle: widget.onDoneButtonStyle,
                         editorBackgroundColor: widget.editorBackgroundColor,

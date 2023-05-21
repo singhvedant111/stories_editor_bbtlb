@@ -25,6 +25,8 @@ dependencies:
   #own packages
   gallery_media_picker: 
 
+  image_picker:
+
 
   modal_gif_picker: 
   # painting
