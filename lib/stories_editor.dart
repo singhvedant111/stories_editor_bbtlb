@@ -28,9 +28,6 @@ class StoriesEditor extends StatefulWidget {
   /// editor custom color gradients
   final List<List<Color>>? gradientColors;
 
-  /// editor custom logo
-  final Widget? middleBottomWidget;
-
   /// on done
   final Function(String)? onDone;
 
@@ -53,7 +50,6 @@ class StoriesEditor extends StatefulWidget {
       {Key? key,
       required this.giphyKey,
       required this.onDone,
-      this.middleBottomWidget,
       this.colorList,
       this.gradientColors,
       this.fontFamilyList,
@@ -111,7 +107,6 @@ class _StoriesEditorState extends State<StoriesEditor> {
             onDone: widget.onDone,
             fontFamilyList: widget.fontFamilyList,
             isCustomFontList: widget.isCustomFontList,
-            middleBottomWidget: widget.middleBottomWidget,
             gradientColors: widget.gradientColors,
             colorList: widget.colorList,
             onDoneButtonStyle: widget.onDoneButtonStyle,

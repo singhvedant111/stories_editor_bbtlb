@@ -72,14 +72,7 @@ class ControlNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Widget? _middleBottomWidget;
-
   /// you can add a custom widget on the bottom
-  Widget? get middleBottomWidget => _middleBottomWidget;
-  set middleBottomWidget(Widget? widget) {
-    _middleBottomWidget = widget;
-    notifyListeners();
-  }
 
   Future<bool>? _exitDialogWidget;
 

@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_media_picker/gallery_media_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/control_provider.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/draggable_widget_notifier.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/scroll_notifier.dart';
 import 'package:stories_editor/src/domain/sevices/save_as_image.dart';
+import 'package:stories_editor/src/presentation/utils/constants/app_enums.dart';
 import 'package:stories_editor/src/presentation/widgets/animated_onTap_button.dart';
+
+import '../../domain/models/editable_items.dart';
 
 class BottomTools extends StatelessWidget {
   final GlobalKey contentKey;
@@ -92,38 +96,37 @@ class BottomTools extends StatelessWidget {
                 ),
 
                 /// center logo
-                if (controlNotifier.middleBottomWidget != null)
-                  Expanded(
-                    child: Center(
-                      child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: controlNotifier.middleBottomWidget),
-                    ),
-                  )
-                else
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/instagram_logo.png',
-                            package: 'stories_editor',
-                            color: Colors.white,
-                            height: 42,
-                          ),
-                          const Text(
-                            'Stories Creator',
-                            style: TextStyle(
-                                color: Colors.white38,
-                                letterSpacing: 1.5,
-                                fontSize: 9.2,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+
+                Expanded(
+                  child: Center(
+                    child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+                              var image = await imagePicker.pickImage(
+                                  source: ImageSource.camera,
+                                  imageQuality: 70,
+                                  maxHeight: 1024,
+                                  maxWidth: 1024);
+                              controlNotifier.mediaPath =
+                                  image!.path.toString();
+                              if (controlNotifier.mediaPath.isNotEmpty) {
+                                itemNotifier.draggableWidget.insert(
+                                    0,
+                                    EditableItem()
+                                      ..type = ItemType.image
+                                      ..position = const Offset(0.0, 0));
+                              }
+                            },
+                            child: ClipOval(
+                                child: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    color: Colors.white,
+                                    child: const Icon(Icons.camera_alt_outlined,
+                                        color: Colors.blue))))),
                   ),
+                ),
 
                 /// save final image to gallery
                 Expanded(

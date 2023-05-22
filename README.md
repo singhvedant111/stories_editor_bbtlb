@@ -89,7 +89,6 @@ StoriesEditor(
     },
     colorList: [] /// (List<Color>[]) optional param 
     gradientColors: [] /// (List<List<Color>>[]) optional param 
-    middleBottomWidget: Container() /// (Widget) optional param, you can add your own logo or text in the bottom tool
     fontFamilyList: [] /// (List<String>) optional param
     isCustomFontList: '' /// (bool) if you use a own font list set value to "true"
     onDoneButtonStyle: Container() /// (Widget) optional param, you can create your own button style

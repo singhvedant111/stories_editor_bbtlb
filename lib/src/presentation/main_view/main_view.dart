@@ -43,9 +43,6 @@ class MainView extends StatefulWidget {
   /// editor custom color gradients
   final List<List<Color>>? gradientColors;
 
-  /// editor custom logo
-  final Widget? middleBottomWidget;
-
   /// on done
   final Function(String)? onDone;
 
@@ -67,7 +64,6 @@ class MainView extends StatefulWidget {
       {Key? key,
       required this.giphyKey,
       required this.onDone,
-      this.middleBottomWidget,
       this.colorList,
       this.isCustomFontList,
       this.fontFamilyList,
@@ -106,7 +102,7 @@ class _MainViewState extends State<MainView> {
 
       /// initialize control variable provider
       _control.giphyKey = widget.giphyKey;
-      _control.middleBottomWidget = widget.middleBottomWidget;
+
       _control.isCustomFontList = widget.isCustomFontList ?? false;
       if (widget.gradientColors != null) {
         _control.gradientColors = widget.gradientColors;
