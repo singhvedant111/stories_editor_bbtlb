@@ -16,7 +16,7 @@ class Sketcher extends CustomPainter {
     for (int i = 0; i < lines.length; ++i) {
       switch (lines[i].paintingType) {
         case PaintingType.pen:
-          paint = Paint()..color = lines[i].lineColor;
+          paint = Paint()..color = lines[i].lineColor..style = PaintingStyle.fill;
 
           outlinePoints = getStroke(
 
@@ -27,7 +27,7 @@ class Sketcher extends CustomPainter {
               size: lines[i].size,
 
               /// line thin
-              thinning: 1,
+              thinning: -0.1,
 
               /// line smooth
               smoothing: 1,
@@ -57,13 +57,18 @@ class Sketcher extends CustomPainter {
             size: lines[i].size,
 
             /// line thin
-            thinning: 1,
+            thinning: -0.1,
 
             /// line smooth
             smoothing: 1,
 
             /// on complete line
             isComplete: lines[i].isComplete,
+             simulatePressure: lines[i].simulatePressure,
+              taperStart: 0,
+              taperEnd: 0,
+              capStart: true,
+              capEnd: true
           );
           break;
         case PaintingType.neon:
