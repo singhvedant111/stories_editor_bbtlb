@@ -116,7 +116,7 @@ class _ScrollablePageViewState extends State<ScrollablePageView> {
           controller: _pageController,
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
-          children: [widget.mainView, widget.gallery],
+          children: [widget.mainView],
         ));
   }
 }
