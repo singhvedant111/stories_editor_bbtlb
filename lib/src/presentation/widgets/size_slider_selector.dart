@@ -49,16 +49,6 @@ class _SizeSliderWidgetState extends State<SizeSliderWidget> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: 250,
-                      height: !_showIndicator ? 2 : 0,
-                      decoration: BoxDecoration(
-                          color: !_showIndicator
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(30)),
-                    ),
                     Padding(
                       padding: _isChange
                           ? const EdgeInsets.only(top: 2)
@@ -69,9 +59,13 @@ class _SizeSliderWidgetState extends State<SizeSliderWidget> {
                             : editorNotifier.textSize,
                         min: controlNotifier.isPainting ? 5 : 14,
                         max: controlNotifier.isPainting ? 20 : 50,
-                        activeColor: Colors.transparent,
+                        activeColor: !_showIndicator
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
                         thumbColor: Colors.white,
-                        inactiveColor: Colors.transparent,
+                        inactiveColor: !_showIndicator
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
                         onChanged: (value) {
                           if (controlNotifier.isPainting) {
                             paintingNotifier.lineWidth = value;
@@ -93,6 +87,16 @@ class _SizeSliderWidgetState extends State<SizeSliderWidget> {
                         },
                       ),
                     ),
+                    // AnimatedContainer(
+                    //   duration: const Duration(milliseconds: 300),
+                    //   width: 250,
+                    //   height: !_showIndicator ? 2 : 0,
+                    //   decoration: BoxDecoration(
+                    //       color: !_showIndicator
+                    //           ? Colors.white.withOpacity(0.2)
+                    //           : Colors.transparent,
+                    //       borderRadius: BorderRadius.circular(30)),
+                    // ),
                   ],
                 ),
               ),
