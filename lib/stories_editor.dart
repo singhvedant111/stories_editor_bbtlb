@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/control_provider.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/draggable_widget_notifier.dart';
+import 'package:stories_editor/src/domain/providers/notifiers/filter_notifier.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/gradient_notifier.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/painting_notifier.dart';
 import 'package:stories_editor/src/domain/providers/notifiers/scroll_notifier.dart';
@@ -100,6 +101,7 @@ class _StoriesEditorState extends State<StoriesEditor> {
             ChangeNotifierProvider(create: (_) => DraggableWidgetNotifier()),
             ChangeNotifierProvider(create: (_) => GradientNotifier()),
             ChangeNotifierProvider(create: (_) => PaintingNotifier()),
+            ChangeNotifierProvider(create: (_) => FilterNotifier()),
             ChangeNotifierProvider(create: (_) => TextEditingNotifier()),
           ],
           child: MainView(

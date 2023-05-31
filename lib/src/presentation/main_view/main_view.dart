@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_media_picker/gallery_media_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:photofilters/widgets/photo_filter.dart';
 import 'package:provider/provider.dart';
 import 'package:stories_editor/src/domain/models/editable_items.dart';
 import 'package:stories_editor/src/domain/models/painting_model.dart';
@@ -22,13 +23,18 @@ import 'package:stories_editor/src/presentation/bar_tools/bottom_tools.dart';
 import 'package:stories_editor/src/presentation/bar_tools/top_tools.dart';
 import 'package:stories_editor/src/presentation/draggable_items/delete_item.dart';
 import 'package:stories_editor/src/presentation/draggable_items/draggable_widget.dart';
+import 'package:stories_editor/src/presentation/filter_view/filter.dart';
 import 'package:stories_editor/src/presentation/painting_view/painting.dart';
 import 'package:stories_editor/src/presentation/painting_view/widgets/sketcher.dart';
 import 'package:stories_editor/src/presentation/text_editor_view/TextEditor.dart';
 import 'package:stories_editor/src/presentation/utils/constants/app_enums.dart';
 import 'package:stories_editor/src/presentation/utils/modal_sheets.dart';
 import 'package:stories_editor/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:stories_editor/src/presentation/widgets/custom_photo_filter_selector.dart';
 import 'package:stories_editor/src/presentation/widgets/scrollable_pageView.dart';
+import 'package:image/image.dart' as imageLib;
+import 'package:path/path.dart' as pathLib;
+import 'package:photofilters/photofilters.dart' as photofilterLib;
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -312,7 +318,8 @@ class _MainViewState extends State<MainView> {
                           /// top tools
                           Visibility(
                             visible: !controlNotifier.isTextEditing &&
-                                !controlNotifier.isPainting,
+                                !controlNotifier.isPainting &&
+                                !controlNotifier.isPhotoFilter,
                             child: Align(
                                 alignment: Alignment.topCenter,
                                 child: TopTools(
@@ -342,6 +349,12 @@ class _MainViewState extends State<MainView> {
                             visible: controlNotifier.isPainting,
                             child: const Painting(),
                           ),
+
+                          /// show photo filter
+                          Visibility(
+                            visible: controlNotifier.isPhotoFilter,
+                            child: const Filter(),
+                          ),
                         ],
                       ),
                     ),
@@ -362,7 +375,27 @@ class _MainViewState extends State<MainView> {
                               imageQuality: 70,
                               maxHeight: 1024,
                               maxWidth: 1024);
-                          controlNotifier.mediaPath = image!.path.toString();
+
+                          String fileName = pathLib.basename(image!.path);
+                          var imagedata =
+                              imageLib.decodeImage(await image.readAsBytes());
+                          Map imagefile = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CustomPhotoFilterSelector(
+                                title: const Text("Add Filter"),
+                                image: imagedata!,
+                                filters: photofilterLib.presetFiltersList,
+                                appBarColor: Colors.black,
+                                filename: fileName,
+                                loader: const Center(
+                                    child: CircularProgressIndicator()),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                          controlNotifier.mediaPath =
+                              imagefile['image_filtered']!.path.toString();
                           if (controlNotifier.mediaPath.isNotEmpty) {
                             itemProvider.draggableWidget.insert(
                                 0,

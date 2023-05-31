@@ -11,8 +11,11 @@ import 'package:stories_editor/src/domain/providers/notifiers/scroll_notifier.da
 import 'package:stories_editor/src/domain/sevices/save_as_image.dart';
 import 'package:stories_editor/src/presentation/utils/constants/app_enums.dart';
 import 'package:stories_editor/src/presentation/widgets/animated_onTap_button.dart';
-
+import 'package:image/image.dart' as imageLib;
+import 'package:path/path.dart' as pathLib;
+import 'package:photofilters/photofilters.dart' as photofilterLib;
 import '../../domain/models/editable_items.dart';
+import '../widgets/custom_photo_filter_selector.dart';
 
 class BottomTools extends StatelessWidget {
   final GlobalKey contentKey;
@@ -109,8 +112,27 @@ class BottomTools extends StatelessWidget {
                                   imageQuality: 70,
                                   maxHeight: 1024,
                                   maxWidth: 1024);
+                              String fileName = pathLib.basename(image!.path);
+                              var imagedata = imageLib
+                                  .decodeImage(await image.readAsBytes());
+                              Map imagefile = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomPhotoFilterSelector(
+                                    title: const Text("Add Filter"),
+                                    image: imagedata!,
+                                    filters: photofilterLib.presetFiltersList,
+                                    appBarColor: Colors.black,
+                                    filename: fileName,
+                                    loader: const Center(
+                                        child: CircularProgressIndicator()),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              );
                               controlNotifier.mediaPath =
-                                  image!.path.toString();
+                                  imagefile['image_filtered']!.path.toString();
                               if (controlNotifier.mediaPath.isNotEmpty) {
                                 itemNotifier.draggableWidget.insert(
                                     0,
