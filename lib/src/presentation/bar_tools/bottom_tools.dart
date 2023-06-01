@@ -102,7 +102,7 @@ class BottomTools extends StatelessWidget {
 
                 Expanded(
                   child: Center(
-                    child: controlNotifier.mediaPath.isNotEmpty
+                    child: controlNotifier.mediaPath.isEmpty
                         ? Container(
                             alignment: Alignment.bottomCenter,
                             child: InkWell(
