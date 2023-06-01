@@ -102,51 +102,58 @@ class BottomTools extends StatelessWidget {
 
                 Expanded(
                   child: Center(
-                    child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              var image = await imagePicker.pickImage(
-                                  source: ImageSource.camera,
-                                  imageQuality: 70,
-                                  maxHeight: 1024,
-                                  maxWidth: 1024);
-                              String fileName = pathLib.basename(image!.path);
-                              var imagedata = imageLib
-                                  .decodeImage(await image.readAsBytes());
-                              Map imagefile = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomPhotoFilterSelector(
-                                    title: const Text("Add Filter"),
-                                    image: imagedata!,
-                                    filters: photofilterLib.presetFiltersList,
-                                    appBarColor: Colors.black,
-                                    filename: fileName,
-                                    loader: const Center(
-                                        child: CircularProgressIndicator()),
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              );
-                              controlNotifier.mediaPath =
-                                  imagefile['image_filtered']!.path.toString();
-                              if (controlNotifier.mediaPath.isNotEmpty) {
-                                itemNotifier.draggableWidget.insert(
-                                    0,
-                                    EditableItem()
-                                      ..type = ItemType.image
-                                      ..position = const Offset(0.0, 0));
-                              }
-                            },
-                            child: ClipOval(
-                                child: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    color: Colors.white,
-                                    child: const Icon(Icons.camera_alt_outlined,
-                                        color: Colors.blue))))),
+                    child: controlNotifier.mediaPath.isNotEmpty
+                        ? Container(
+                            alignment: Alignment.bottomCenter,
+                            child: InkWell(
+                                onTap: () async {
+                                  ImagePicker imagePicker = ImagePicker();
+                                  var image = await imagePicker.pickImage(
+                                      source: ImageSource.camera,
+                                      imageQuality: 70,
+                                      maxHeight: 1024,
+                                      maxWidth: 1024);
+                                  String fileName =
+                                      pathLib.basename(image!.path);
+                                  var imagedata = imageLib
+                                      .decodeImage(await image.readAsBytes());
+                                  Map imagefile = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CustomPhotoFilterSelector(
+                                        title: const Text("Add Filter"),
+                                        image: imagedata!,
+                                        filters:
+                                            photofilterLib.presetFiltersList,
+                                        appBarColor: Colors.black,
+                                        filename: fileName,
+                                        loader: const Center(
+                                            child: CircularProgressIndicator()),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  );
+                                  controlNotifier.mediaPath =
+                                      imagefile['image_filtered']!
+                                          .path
+                                          .toString();
+                                  if (controlNotifier.mediaPath.isNotEmpty) {
+                                    itemNotifier.draggableWidget.insert(
+                                        0,
+                                        EditableItem()
+                                          ..type = ItemType.image
+                                          ..position = const Offset(0.0, 0));
+                                  }
+                                },
+                                child: ClipOval(
+                                    child: Container(
+                                        padding: const EdgeInsets.all(16),
+                                        color: Colors.white,
+                                        child: const Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Colors.blue)))))
+                        : Container(),
                   ),
                 ),
 
