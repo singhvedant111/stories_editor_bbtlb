@@ -4,55 +4,49 @@ version: 0.2.2
 homepage: https://github.com/camilo1498/stories_editor
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
   # state management
-  provider: 
+  provider:
   # image
-  image: 
-  path_provider: 
-  photo_view: 
+  image:
+  path_provider:
+  photo_view:
   # with this ref fix `Looking up a deactivated widget's ancestor is unsafe`.
   #photo_view:
   #  git:
   #    url: https://github.com/bluefireteam/photo_view
   #    ref: 8156907eecfa812b181a5a729d790f6d399f311b
-  image_gallery_saver: 
+  image_gallery_saver:
   #own packages
-  gallery_media_picker: 
+  gallery_media_picker: ^0.1.0
 
   image_picker:
 
-
-  modal_gif_picker: 
+  modal_gif_picker:
   # painting
-  perfect_freehand: 
+  perfect_freehand:
   # positioning
-  align_positioned: 
+  align_positioned:
   #message
-  fluttertoast: 
+  fluttertoast:
 
-  animated_text_kit: 
+  animated_text_kit:
 
-  flutter_screenutil: 
+  flutter_screenutil:
 
   photofilters:
-
-  
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
 
-
 flutter:
-
   assets:
     - packages/stories_editor/assets/icons/align_center.png
     - packages/stories_editor/assets/icons/align_left.png
@@ -79,7 +73,6 @@ flutter:
     - packages/stories_editor/assets/images/instagram_logo.png
 
   fonts:
-
     - family: Alegreya
       fonts:
         - asset: packages/stories_editor/assets/fonts/Alegreya-VariableFont_wght.ttf
