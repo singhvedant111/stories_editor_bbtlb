@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:stories_editor/src/domain/models/editable_items.dart';
@@ -11,6 +11,7 @@ import 'package:stories_editor/src/domain/sevices/save_as_image.dart';
 import 'package:stories_editor/src/presentation/utils/Extensions/hexColor.dart';
 import 'package:stories_editor/src/presentation/utils/constants/app_enums.dart';
 import 'package:stories_editor/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:toast/toast.dart';
 
 /// create item of type GIF
 Future createGiphyItem(
@@ -199,6 +200,6 @@ _resetDefaults({required BuildContext context}) {
 
 _dispose({required context, required message}) {
   _resetDefaults(context: context);
-  Fluttertoast.showToast(msg: message);
+  Toast.show(message);
   Navigator.of(context).pop(true);
 }

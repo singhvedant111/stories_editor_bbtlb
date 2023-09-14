@@ -77,7 +77,7 @@ class MainView extends StatefulWidget {
       this.onBackPress,
       this.onDoneButtonStyle,
       this.editorBackgroundColor,
-      this.galleryThumbnailQuality})
+      this.galleryThumbnailQuality = 200})
       : super(key: key);
 
   @override
@@ -432,6 +432,7 @@ class _MainViewState extends State<MainView> {
                     gridViewPhysics: itemProvider.draggableWidget.isEmpty
                         ? const NeverScrollableScrollPhysics()
                         : const ScrollPhysics(),
+                    onlyVideos: false,
                     appBarLeadingWidget: Padding(
                       padding: const EdgeInsets.only(bottom: 15, right: 15),
                       child: Align(

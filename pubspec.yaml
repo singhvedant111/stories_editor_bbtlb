@@ -33,7 +33,7 @@ dependencies:
   # positioning
   align_positioned:
   #message
-  fluttertoast:
+  toast:
 
   animated_text_kit:
 
