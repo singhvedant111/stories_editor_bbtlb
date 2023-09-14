@@ -195,10 +195,11 @@ packages:
   gallery_media_picker:
     dependency: transitive
     description:
-      name: gallery_media_picker
-      sha256: "85054c3829f4c28e8ddfe75c132ae020576d102bf477eae221f2d953872e551e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: ab87c8ab843ba03e958eced415d91be4989be4ad
+      url: "https://github.com/axenetitservices/gallery_media_picker"
+    source: git
     version: "0.1.0"
   http:
     dependency: transitive
