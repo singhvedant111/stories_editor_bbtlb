@@ -45,7 +45,7 @@ class Sketcher extends CustomPainter {
           paint = Paint()
             ..strokeWidth = 5
             ..color = lines[i].lineColor.withOpacity(0.7)
-            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
+            //..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1)
             ..strokeCap = StrokeCap.square
             ..filterQuality = FilterQuality.high
             ..style = PaintingStyle.fill;
@@ -75,14 +75,15 @@ class Sketcher extends CustomPainter {
           paint = Paint()
             ..strokeWidth = 5
             ..color = lines[i].lineColor
-            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
+           // ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1)
             ..strokeJoin = StrokeJoin.round
             ..strokeCap = StrokeCap.round
             ..strokeMiterLimit = 5
             ..filterQuality = FilterQuality.high
             ..style = PaintingStyle.stroke;
 
-          outlinePoints = getStroke(
+          outlinePoints = 
+          getStroke(
 
               /// coordinates
               lines[i].points,
@@ -109,7 +110,7 @@ class Sketcher extends CustomPainter {
 
       final path = Path();
 
-      if (outlinePoints.isEmpty) {
+      if (outlinePoints!.isEmpty) {
         return;
       } else if (outlinePoints.length < 2) {
         /// If the path only has one line, draw a dot.
