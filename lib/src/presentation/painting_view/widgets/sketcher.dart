@@ -11,7 +11,7 @@ class Sketcher extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
-    List<Point>? outlinePoints;
+    List<Offset>? outlinePoints;
 
     for (int i = 0; i < lines.length; ++i) {
       switch (lines[i].paintingType) {
@@ -24,7 +24,7 @@ class Sketcher extends CustomPainter {
               lines[i].points,
 
               /// line width
-              size: lines[i].size,
+              options: StrokeOptions(size: lines[i].size,
 
               /// line thin
               thinning: -0.1,
@@ -35,17 +35,15 @@ class Sketcher extends CustomPainter {
               /// on complete line
               isComplete: lines[i].isComplete,
               streamline: 1,
-              taperEnd: 0,
-              taperStart: 0,
-              capEnd: true,
+              
               simulatePressure: true,
-              capStart: true);
+              ));
           break;
         case PaintingType.marker:
           paint = Paint()
             ..strokeWidth = 5
             ..color = lines[i].lineColor.withOpacity(0.7)
-            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
+            //..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1)
             ..strokeCap = StrokeCap.square
             ..filterQuality = FilterQuality.high
             ..style = PaintingStyle.fill;
@@ -54,7 +52,7 @@ class Sketcher extends CustomPainter {
             lines[i].points,
 
             /// line width
-            size: lines[i].size,
+            options: StrokeOptions(size: lines[i].size,
 
             /// line thin
             thinning: -0.1,
@@ -65,30 +63,28 @@ class Sketcher extends CustomPainter {
             /// on complete line
             isComplete: lines[i].isComplete,
              simulatePressure: lines[i].simulatePressure,
-              taperStart: 0,
-              taperEnd: 0,
-              capStart: true,
-              capEnd: true
+             )
           );
           break;
         case PaintingType.neon:
           paint = Paint()
             ..strokeWidth = 5
             ..color = lines[i].lineColor
-            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
+           // ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1)
             ..strokeJoin = StrokeJoin.round
             ..strokeCap = StrokeCap.round
             ..strokeMiterLimit = 5
             ..filterQuality = FilterQuality.high
             ..style = PaintingStyle.stroke;
 
-          outlinePoints = getStroke(
+          outlinePoints = 
+          getStroke(
 
               /// coordinates
               lines[i].points,
 
               /// line width
-              size: lines[i].size,
+              options: StrokeOptions(size: lines[i].size,
 
               /// line thin
               thinning: -0.1,
@@ -100,30 +96,27 @@ class Sketcher extends CustomPainter {
               isComplete: lines[i].isComplete,
               streamline: lines[i].streamline,
               simulatePressure: lines[i].simulatePressure,
-              taperStart: 0,
-              taperEnd: 0,
-              capStart: true,
-              capEnd: true);
+              ));
           break;
       }
 
       final path = Path();
 
-      if (outlinePoints.isEmpty) {
+      if (outlinePoints!.isEmpty) {
         return;
       } else if (outlinePoints.length < 2) {
         /// If the path only has one line, draw a dot.
         path.addOval(Rect.fromCircle(
-            center: Offset(outlinePoints[0].x, outlinePoints[0].y), radius: 1));
+            center: Offset(outlinePoints[0].dx, outlinePoints[0].dy), radius: 1));
       } else {
         /// Otherwise, draw a line that connects each point with a curve.
-        path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
+        path.moveTo(outlinePoints[0].dx, outlinePoints[0].dy);
 
         for (int i = 1; i < outlinePoints.length - 1; ++i) {
           final p0 = outlinePoints[i];
           final p1 = outlinePoints[i + 1];
           path.quadraticBezierTo(
-              p0.x, p0.y, (p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
+              p0.dx, p0.dy, (p0.dx + p1.dx) / 2, (p0.dy + p1.dy) / 2);
         }
       }
 

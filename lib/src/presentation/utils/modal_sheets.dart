@@ -55,7 +55,7 @@ Future<bool> exitDialog({required context, required contentKey}) async {
               padding: const EdgeInsets.only(
                   top: 25, bottom: 5, right: 20, left: 20),
               alignment: Alignment.center,
-              height: 280,
+              height: 350,
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: HexColor.fromHex('#262626'),
